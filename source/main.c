@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#define MAIN_SOURCE_CODE "/**\n* Project:\n* Auther:\n* Version:\n*/\n#include <stdio.h>\n#include <stdlib.h>\n#include ""header/function.h""\nint main(void){\n    \n    return 0;\n}"
+#define MAIN_SOURCE_CODE "/**\n* Project:\n* Auther:\n* Version:\n*/\n#include <stdio.h>\n#include <stdlib.h>\n#include \"../header/function.h\"\nint main(void){\n    \n    return 0;\n}"
 #define FUNCTION_SOURCE_CODE "int function(){\n    return 0;\n}"
 #define HEADER_SOURCE_CODE "int function();" 
+#define MAKE_SOURCE_CODE "CC=gcc\nSOURCE_MAIN=source/main.c\nSOURCE_FUNC=source/function.c\nTARGET=project\n\nall:\n	$(CC) -o $(TARGET) $(SOURCE_MAIN) $(SOURCE_FUNC)"
 int main(int argc, char *argv[]){
     char *project_dir=argv[1];
     char source_dir[64];
@@ -22,9 +23,11 @@ int main(int argc, char *argv[]){
     char main_source[64];
     char function_source[64];
     char header_source[64];
+    char make_source[64];
     sprintf(main_source, "./%s/source/main.c", project_dir);
     sprintf(function_source, "./%s/source/function.c", project_dir);
     sprintf(header_source, "./%s/header/function.h", project_dir);
+    sprintf(make_source, "./%s/makefile", project_dir);
     file=fopen(main_source,"w");
     fprintf(file, MAIN_SOURCE_CODE);
     fclose(file);
@@ -34,7 +37,8 @@ int main(int argc, char *argv[]){
     file=fopen(header_source,"w");
     fprintf(file, HEADER_SOURCE_CODE);
     fclose(file);
-
-
+    file=fopen(make_source,"w");
+    fprintf(file, MAKE_SOURCE_CODE);
+    fclose(file);
     return 0;
 }
